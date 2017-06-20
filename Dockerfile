@@ -1,4 +1,4 @@
-FROM php:7.0-fpm
+FROM php:7.0
 
 # Install modules
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev \
@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev \
         libxslt1-dev \
         zip unzip \
         --no-install-recommends
+		
+RUN curl -L https://pecl.php.net/get/imagick/ >> /usr/src/php/ext/imagick.tgz && \
+    tar -xf /usr/src/php/ext/imagick.tgz -C /usr/src/php/ext/ && \
+    rm /usr/src/php/ext/imagick.tgz
 
 RUN pecl channel-update pecl.php.net \
     && docker-php-ext-install intl pdo_mysql bcmath xsl zip mysqli imagick \
