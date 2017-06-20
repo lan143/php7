@@ -12,12 +12,17 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev \
         zip unzip \
         --no-install-recommends
 		
-RUN curl -L https://pecl.php.net/get/imagick/ >> /usr/src/php/ext/imagick.tgz && \
-    tar -xf /usr/src/php/ext/imagick.tgz -C /usr/src/php/ext/ && \
-    rm /usr/src/php/ext/imagick.tgz
+RUN apt-get update && apt-get install -y \
+    git libmagick++-dev \
+    --no-install-recommends && rm -r /var/lib/apt/lists/* && \
+    git clone https://github.com/mkoppanen/imagick.git && \
+    cd imagick && git checkout phpseven && phpize && ./configure && \
+    make && make install && \
+    docker-php-ext-enable imagick && \
+    cd ../ && rm -rf imagick
 
 RUN pecl channel-update pecl.php.net \
-    && docker-php-ext-install intl pdo_mysql bcmath xsl zip mysqli imagick \
+    && docker-php-ext-install intl pdo_mysql bcmath xsl zip mysqli \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && pear install PHP_CodeSniffer
