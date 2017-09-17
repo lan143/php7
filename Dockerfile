@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     git libmagick++-dev \
     --no-install-recommends && rm -r /var/lib/apt/lists/* && \
     git clone https://github.com/mkoppanen/imagick.git && \
-    cd imagick && git checkout phpseven && phpize && ./configure && \
+    cd imagick && git checkout master && phpize && ./configure && \
     make && make install && \
     docker-php-ext-enable imagick && \
     cd ../ && rm -rf imagick
