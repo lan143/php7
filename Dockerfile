@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev \
         libmcrypt-dev \
         libmagickwand-dev \
         libmagickcore-dev \
-        libpng12-dev \
+        libpng-dev \
         libxslt1-dev \
         zip unzip \
         --no-install-recommends
